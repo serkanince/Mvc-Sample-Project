@@ -1,0 +1,25 @@
+﻿@using System.Web.Optimization;
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Sample 01 - Bundle</title>
+
+    @Styles.Render("~/bundles/Css")
+</head>
+<body>
+    <div> 
+
+        <a href="#" class="btn btn-success btn-lg"> OK ! </a>
+
+    </div>
+
+    @Scripts.Render("~/bundles/JS")
+
+</body>
+</html>
