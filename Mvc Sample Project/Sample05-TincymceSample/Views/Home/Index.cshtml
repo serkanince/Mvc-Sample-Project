@@ -1,0 +1,55 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <div>
+        <div class="form-group">
+            <textarea id="mytextarea"></textarea>
+        </div>
+    </div>
+
+    <script src="~/assets/plugins/tinymce/tinymce.min.js"></script>
+    <script type="text/javascript">
+
+        //Editör initialize için gerekli config kodları
+        tinymce.init({
+            selector: '#mytextarea',
+            height: '350',
+            plugins: [
+                      'advlist autolink lists link image charmap preview anchor',
+                      'visualblocks fullscreen',
+                      'media table contextmenu paste'
+            ],
+            automatic_uploads: false,
+            file_browser_callback_types: 'image',
+            file_browser_callback: function (field_name, url, type, win) {
+
+                var filebrowser = "/Home/ImageFileBrowser";
+                filebrowser += (filebrowser.indexOf("?") < 0) ? "?type=" + type : "&type=" + type;
+                tinymce.activeEditor.windowManager.open({
+                    title: "Dosya Seç",
+                    width: 520,
+                    height: 400,
+                    url: filebrowser
+                }, {
+                    window: win,
+                    input: field_name
+                });
+            },
+            language_url: '../assets/plugins/tinymce/js/langs/tr_TR.js',
+        });
+
+    </script>
+
+
+</body>
+</html>

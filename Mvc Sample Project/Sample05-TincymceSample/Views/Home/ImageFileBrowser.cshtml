@@ -1,0 +1,72 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/assets/css/bootstrap.min.css" rel="stylesheet" />
+    <title></title>
+</head>
+<body>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+        </div>
+        <div class="panel-body">
+            <div class="col-md-3">
+                <button id="btnUpload" class="btn btn-default" type="button">
+                    Yüklemek İçin Tıklayınız
+                </button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<script src="~/assets/plugins/jquery/jquery.min.js"></script>
+<script src="~/assets/plugins/dropzone/dropzone.min.js"></script>
+<script type="text/javascript" language="javascript">
+
+    $("#btnUpload").dropzone({
+        url: "@Url.Action("SaveImageFile", "Home",new { ImageType = "2"})",
+        addRemoveLinks: true,
+        uploadMultiple: false,
+        acceptedFiles: '.jpg, .jpeg, .png',
+        maxFilesize: 100,
+        maxFiles: 3,
+        parallelUploads: 1,
+        addedfile: function (file) {
+        },
+        init: function () {
+            this.on("maxfilesexceeded", function (file) {
+                alert('Tek seferde en fazla 3 dosya yükleyebilirsiniz');
+            });
+            this.on("processing", function (file) {
+                $('#btnUpload').prop('disabled', true);
+            });
+        },
+        error: function (file) {
+            alert('Yükleme işlemi başarısız');
+        },
+        success: function (file) {
+            var response = JSON.parse(file.xhr.response);
+            if (response.IsSave) {
+
+                $('#btnUpload').prop('disabled', false);
+
+                var item_url = response.Url;
+                var args = top.tinymce.activeEditor.windowManager.getParams();
+                win = (args.window);
+                input = (args.input);
+                win.document.getElementById(input).value = item_url;
+                top.tinymce.activeEditor.windowManager.close();
+            }
+            else {
+                alert('İşlem Başarısız');
+            }
+        }
+    });
+
+</script>
